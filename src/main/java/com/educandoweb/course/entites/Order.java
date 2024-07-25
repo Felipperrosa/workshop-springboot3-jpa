@@ -1,5 +1,6 @@
 package com.educandoweb.course.entites;
 
+import com.educandoweb.course.entites.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -9,26 +10,30 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_order")
-public class Order  implements Serializable {
+public class Order implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
     private Instant moment;
 
+    private Integer orderStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private User client;
-    public Order(){
 
+
+
+
+    public Order() {
     }
-
-    public Order( User client, Long id, Instant moment) {
-        this.client = client;
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
+        setOrderStatus(orderStatus);
+        this.client = client;
     }
 
     public Long getId() {
@@ -55,6 +60,16 @@ public class Order  implements Serializable {
         this.client = client;
     }
 
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null) {
+        }
+        this.orderStatus = orderStatus.getCode();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,8 +80,6 @@ public class Order  implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id);
     }
-
-
 }
