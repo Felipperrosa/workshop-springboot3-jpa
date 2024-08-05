@@ -1,8 +1,8 @@
-package com.educandoweb.course.UserResource;
+package com.educandoweb.course.resources;
 
-import com.educandoweb.course.entites.Order;
+import com.educandoweb.course.entites.Category;
 import com.educandoweb.course.entites.User;
-import com.educandoweb.course.services.OrderService;
+import com.educandoweb.course.services.CategoryService;
 import com.educandoweb.course.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/orders")
-public class OrderResource {
+@RequestMapping(value = "/categories")
+public class CategoryResource {
 
     @Autowired
-    private OrderService service;
+    private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Order>> findAll(){
+    public ResponseEntity<List<Category>> findAll(){
 
-        List<Order> list = service.findAll();
+        List<Category> list = service.findAll();
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Order> findById(@PathVariable Long id){
-        Order obj = service.findById(id);
+    public ResponseEntity<Category> findById(@PathVariable Long id){
+        Category obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
-}
+}gi
